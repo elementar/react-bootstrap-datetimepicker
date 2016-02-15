@@ -341,6 +341,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          "bootstrap-datetimepicker-widget": true,
 	          "dropdown-menu": true
 	        };
+	        if (_this.props.sideBySide) {
+	          classes['timepicker-sbs'] = true;
+	        }
 	        offset = {
 	          top: gBCR.top + window.pageYOffset - document.documentElement.clientTop,
 	          left: gBCR.left + window.pageXOffset - document.documentElement.clientLeft
@@ -438,6 +441,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          showDatePicker: this.state.showDatePicker,
 	          showTimePicker: this.state.showTimePicker,
 	          showToday: this.props.showToday,
+	          sideBySide: this.props.sideBySide,
 	          subtractDecade: this.subtractDecade,
 	          subtractHour: this.subtractHour,
 	          subtractMinute: this.subtractMinute,
@@ -491,6 +495,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      maxDate: _react.PropTypes.object,
 	      direction: _react.PropTypes.string,
 	      showToday: _react.PropTypes.bool,
+	      sideBySide: _react.PropTypes.bool,
 	      viewMode: _react.PropTypes.string,
 	      size: _react.PropTypes.oneOf([_ConstantsJs2["default"].SIZE_SMALL, _ConstantsJs2["default"].SIZE_MEDIUM, _ConstantsJs2["default"].SIZE_LARGE]),
 	      daysOfWeekDisabled: _react.PropTypes.arrayOf(_react.PropTypes.number)
@@ -1064,8 +1069,8 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	  Copyright (c) 2015 Jed Watson.
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	  Copyright (c) 2016 Jed Watson.
 	  Licensed under the MIT License (MIT), see
 	  http://jedwatson.github.io/classnames
 	*/
@@ -1077,7 +1082,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		var hasOwn = {}.hasOwnProperty;
 
 		function classNames () {
-			var classes = '';
+			var classes = [];
 
 			for (var i = 0; i < arguments.length; i++) {
 				var arg = arguments[i];
@@ -1086,28 +1091,28 @@ return /******/ (function(modules) { // webpackBootstrap
 				var argType = typeof arg;
 
 				if (argType === 'string' || argType === 'number') {
-					classes += ' ' + arg;
+					classes.push(arg);
 				} else if (Array.isArray(arg)) {
-					classes += ' ' + classNames.apply(null, arg);
+					classes.push(classNames.apply(null, arg));
 				} else if (argType === 'object') {
 					for (var key in arg) {
 						if (hasOwn.call(arg, key) && arg[key]) {
-							classes += ' ' + key;
+							classes.push(key);
 						}
 					}
 				}
 			}
 
-			return classes.substr(1);
+			return classes.join(' ');
 		}
 
 		if (typeof module !== 'undefined' && module.exports) {
 			module.exports = classNames;
 		} else if (true) {
 			// register as 'classnames', consistent with npm package name
-			!(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
 				return classNames;
-			}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+			}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 		} else {
 			window.classNames = classNames;
 		}
@@ -1165,63 +1170,100 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _get(Object.getPrototypeOf(DateTimePicker.prototype), "constructor", this).apply(this, arguments);
 
 	    this.renderDatePicker = function () {
-	      if (_this.props.showDatePicker) {
-	        return _react2["default"].createElement(
-	          "li",
-	          null,
-	          _react2["default"].createElement(_DateTimePickerDateJs2["default"], {
-	            addDecade: _this.props.addDecade,
-	            addMonth: _this.props.addMonth,
-	            addYear: _this.props.addYear,
-	            daysOfWeekDisabled: _this.props.daysOfWeekDisabled,
-	            maxDate: _this.props.maxDate,
-	            minDate: _this.props.minDate,
-	            selectedDate: _this.props.selectedDate,
-	            setSelectedDate: _this.props.setSelectedDate,
-	            setViewMonth: _this.props.setViewMonth,
-	            setViewYear: _this.props.setViewYear,
-	            showToday: _this.props.showToday,
-	            subtractDecade: _this.props.subtractDecade,
-	            subtractMonth: _this.props.subtractMonth,
-	            subtractYear: _this.props.subtractYear,
-	            viewDate: _this.props.viewDate,
-	            viewMode: _this.props.viewMode
-	          })
-	        );
+	      if (_this.props.sideBySide || _this.props.showDatePicker) {
+	        return _react2["default"].createElement(_DateTimePickerDateJs2["default"], {
+	          addDecade: _this.props.addDecade,
+	          addMonth: _this.props.addMonth,
+	          addYear: _this.props.addYear,
+	          daysOfWeekDisabled: _this.props.daysOfWeekDisabled,
+	          maxDate: _this.props.maxDate,
+	          minDate: _this.props.minDate,
+	          selectedDate: _this.props.selectedDate,
+	          setSelectedDate: _this.props.setSelectedDate,
+	          setViewMonth: _this.props.setViewMonth,
+	          setViewYear: _this.props.setViewYear,
+	          showToday: _this.props.showToday,
+	          subtractDecade: _this.props.subtractDecade,
+	          subtractMonth: _this.props.subtractMonth,
+	          subtractYear: _this.props.subtractYear,
+	          viewDate: _this.props.viewDate,
+	          viewMode: _this.props.viewMode
+	        });
 	      }
 	    };
 
 	    this.renderTimePicker = function () {
-	      if (_this.props.showTimePicker) {
-	        return _react2["default"].createElement(
-	          "li",
-	          null,
-	          _react2["default"].createElement(_DateTimePickerTimeJs2["default"], {
-	            addHour: _this.props.addHour,
-	            addMinute: _this.props.addMinute,
-	            mode: _this.props.mode,
-	            selectedDate: _this.props.selectedDate,
-	            setSelectedHour: _this.props.setSelectedHour,
-	            setSelectedMinute: _this.props.setSelectedMinute,
-	            subtractHour: _this.props.subtractHour,
-	            subtractMinute: _this.props.subtractMinute,
-	            togglePeriod: _this.props.togglePeriod,
-	            viewDate: _this.props.viewDate
-	          })
-	        );
+	      if (_this.props.sideBySide || _this.props.showTimePicker) {
+	        return _react2["default"].createElement(_DateTimePickerTimeJs2["default"], {
+	          addHour: _this.props.addHour,
+	          addMinute: _this.props.addMinute,
+	          mode: _this.props.mode,
+	          selectedDate: _this.props.selectedDate,
+	          setSelectedHour: _this.props.setSelectedHour,
+	          setSelectedMinute: _this.props.setSelectedMinute,
+	          subtractHour: _this.props.subtractHour,
+	          subtractMinute: _this.props.subtractMinute,
+	          togglePeriod: _this.props.togglePeriod,
+	          viewDate: _this.props.viewDate
+	        });
 	      }
 	    };
 
 	    this.renderSwitchButton = function () {
 	      return _this.props.mode === _ConstantsJs2["default"].MODE_DATETIME ? _react2["default"].createElement(
-	        "li",
-	        null,
-	        _react2["default"].createElement(
-	          "span",
-	          { className: "btn picker-switch", onClick: _this.props.togglePicker, style: { width: "100%" } },
-	          _react2["default"].createElement("span", { className: (0, _classnames2["default"])("glyphicon", _this.props.showTimePicker ? "glyphicon-calendar" : "glyphicon-time") })
-	        )
+	        "span",
+	        { className: "btn picker-switch", onClick: _this.props.togglePicker, style: { width: "100%" } },
+	        _react2["default"].createElement("span", { className: (0, _classnames2["default"])("glyphicon", _this.props.showTimePicker ? "glyphicon-calendar" : "glyphicon-time") })
 	      ) : null;
+	    };
+
+	    this.renderSideBySide = function () {
+	      return _react2["default"].createElement(
+	        "div",
+	        { className: "row" },
+	        _react2["default"].createElement(
+	          "div",
+	          { className: "col-md-6" },
+	          " ",
+	          _this.renderDatePicker(),
+	          " "
+	        ),
+	        _react2["default"].createElement(
+	          "div",
+	          { className: "col-md-6" },
+	          " ",
+	          _this.renderTimePicker(),
+	          " "
+	        )
+	      );
+	    };
+
+	    this.renderWithSwitch = function () {
+	      return _react2["default"].createElement(
+	        "ul",
+	        { className: "list-unstyled" },
+	        _react2["default"].createElement(
+	          "li",
+	          null,
+	          " ",
+	          _this.renderDatePicker(),
+	          " "
+	        ),
+	        _react2["default"].createElement(
+	          "li",
+	          null,
+	          " ",
+	          _this.renderSwitchButton(),
+	          " "
+	        ),
+	        _react2["default"].createElement(
+	          "li",
+	          null,
+	          " ",
+	          _this.renderTimePicker(),
+	          " "
+	        )
+	      );
 	    };
 	  }
 
@@ -1231,13 +1273,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return _react2["default"].createElement(
 	        "div",
 	        { className: (0, _classnames2["default"])(this.props.widgetClasses), style: this.props.widgetStyle },
-	        _react2["default"].createElement(
-	          "ul",
-	          { className: "list-unstyled" },
-	          this.renderDatePicker(),
-	          this.renderSwitchButton(),
-	          this.renderTimePicker()
-	        )
+	        this.props.sideBySide ? this.renderSideBySide() : this.renderWithSwitch()
 	      );
 	    }
 	  }], [{
@@ -1250,6 +1286,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      viewDate: _react.PropTypes.object.isRequired,
 	      selectedDate: _react.PropTypes.object.isRequired,
 	      showToday: _react.PropTypes.bool,
+	      sideBySide: _react.PropTypes.bool,
 	      viewMode: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.number]),
 	      mode: _react.PropTypes.oneOf([_ConstantsJs2["default"].MODE_DATE, _ConstantsJs2["default"].MODE_DATETIME, _ConstantsJs2["default"].MODE_TIME]),
 	      daysOfWeekDisabled: _react.PropTypes.array,
