@@ -68,11 +68,11 @@ class Basic extends Component {
 						</div>
 						<div className="row example">
 							<div className="col-xs-12">
-								Example with default Text
+								Side by Side Example
 								<DateTimeField
-									defaultText="Please select a date"
+									sideBySide
 								/>
-								<pre> {'<DateTimeField defaultText="Please select a date" />'} </pre>
+								<pre> {'<DateTimeField sideBySide />'} </pre>
 							</div>
 						</div>
 						<div className="row example">

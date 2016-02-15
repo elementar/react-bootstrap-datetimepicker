@@ -13,6 +13,7 @@ export default class DateTimePicker extends Component {
     viewDate: PropTypes.object.isRequired,
     selectedDate: PropTypes.object.isRequired,
     showToday: PropTypes.bool,
+    sideBySide: PropTypes.bool,
     viewMode: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
@@ -41,9 +42,8 @@ export default class DateTimePicker extends Component {
   }
 
   renderDatePicker = () => {
-    if (this.props.showDatePicker) {
+    if (this.props.sideBySide || this.props.showDatePicker) {
       return (
-      <li>
         <DateTimePickerDate
               addDecade={this.props.addDecade}
               addMonth={this.props.addMonth}
@@ -62,15 +62,13 @@ export default class DateTimePicker extends Component {
               viewDate={this.props.viewDate}
               viewMode={this.props.viewMode}
         />
-      </li>
       );
     }
   }
 
   renderTimePicker = () => {
-    if (this.props.showTimePicker) {
+    if (this.props.sideBySide || this.props.showTimePicker) {
       return (
-      <li>
         <DateTimePickerTime
               addHour={this.props.addHour}
               addMinute={this.props.addMinute}
@@ -83,7 +81,6 @@ export default class DateTimePicker extends Component {
               togglePeriod={this.props.togglePeriod}
               viewDate={this.props.viewDate}
         />
-      </li>
       );
     }
   }
@@ -91,29 +88,35 @@ export default class DateTimePicker extends Component {
   renderSwitchButton = () => {
       return this.props.mode === Constants.MODE_DATETIME ?
           (
-              <li>
-                <span className="btn picker-switch" onClick={this.props.togglePicker} style={{width: "100%"}} ><span className={classnames("glyphicon", this.props.showTimePicker ? "glyphicon-calendar" : "glyphicon-time")} /></span>
-              </li>
+              <span className="btn picker-switch" onClick={this.props.togglePicker} style={{width: "100%"}} ><span className={classnames("glyphicon", this.props.showTimePicker ? "glyphicon-calendar" : "glyphicon-time")} /></span>
           ) :
           null;
+  }
+
+  renderSideBySide = () => {
+    return (
+        <div className="row">
+          <div className="col-md-6"> {this.renderDatePicker()} </div>
+          <div className="col-md-6"> {this.renderTimePicker()} </div>
+        </div>
+    );
+  }
+
+  renderWithSwitch = () => {
+    return (
+        <ul className="list-unstyled">
+          <li> {this.renderDatePicker()} </li>
+          <li> {this.renderSwitchButton()} </li>
+          <li> {this.renderTimePicker()} </li>
+        </ul>
+    );
   }
 
   render() {
     return (
       <div className={classnames(this.props.widgetClasses)} style={this.props.widgetStyle}>
-
-        <ul className="list-unstyled">
-
-          {this.renderDatePicker()}
-
-          {this.renderSwitchButton()}
-
-          {this.renderTimePicker()}
-
-        </ul>
-
+        { this.props.sideBySide ? this.renderSideBySide() : this.renderWithSwitch() }
       </div>
-
     );
   }
 }

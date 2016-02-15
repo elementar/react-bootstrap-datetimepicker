@@ -45,6 +45,7 @@ export default class DateTimeField extends Component {
     maxDate: PropTypes.object,
     direction: PropTypes.string,
     showToday: PropTypes.bool,
+    sideBySide: PropTypes.bool,
     viewMode: PropTypes.string,
     size: PropTypes.oneOf([Constants.SIZE_SMALL, Constants.SIZE_MEDIUM, Constants.SIZE_LARGE]),
     daysOfWeekDisabled: PropTypes.arrayOf(PropTypes.number)
@@ -267,6 +268,9 @@ export default class DateTimeField extends Component {
         "bootstrap-datetimepicker-widget": true,
         "dropdown-menu": true
       };
+      if (this.props.sideBySide) {
+        classes['timepicker-sbs'] = true;
+      }
       offset = {
         top: gBCR.top + window.pageYOffset - document.documentElement.clientTop,
         left: gBCR.left + window.pageXOffset - document.documentElement.clientLeft
@@ -360,6 +364,7 @@ export default class DateTimeField extends Component {
                   showDatePicker={this.state.showDatePicker}
                   showTimePicker={this.state.showTimePicker}
                   showToday={this.props.showToday}
+                  sideBySide={this.props.sideBySide}
                   subtractDecade={this.subtractDecade}
                   subtractHour={this.subtractHour}
                   subtractMinute={this.subtractMinute}
